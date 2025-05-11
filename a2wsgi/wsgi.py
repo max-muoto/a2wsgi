@@ -11,6 +11,8 @@ from .wsgi_typing import Environ, StartResponse, ExceptionInfo, WSGIApp, WriteCa
 
 
 class Body:
+    __slots__ = ("buffer", "loop", "receive", "_has_more")
+
     def __init__(self, loop: asyncio.AbstractEventLoop, receive: Receive) -> None:
         self.buffer = bytearray()
         self.loop = loop
@@ -149,6 +151,8 @@ class WSGIMiddleware:
     """
     Convert WSGIApp to ASGIApp.
     """
+
+    __slots__ = ("app", "send_queue_size", "executor")
 
     def __init__(
         self, app: WSGIApp, workers: int = 10, send_queue_size: int = 10

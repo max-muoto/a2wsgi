@@ -28,6 +28,8 @@ StatusStringMapping = defaultdict(
 
 
 class AsyncEvent:
+    __slots__ = ("loop", "__waiters", "__nowait")
+
     def __init__(self, loop: asyncio.AbstractEventLoop) -> None:
         self.loop = loop
         self.__waiters: Deque[asyncio.Future] = collections.deque()
@@ -57,6 +59,8 @@ class AsyncEvent:
 
 
 class SyncEvent:
+    __slots__ = ("__write_event", "__message")
+
     def __init__(self) -> None:
         self.__write_event = threading.Event()
         self.__message: Any = None
@@ -114,6 +118,8 @@ def build_scope(environ: Environ) -> HTTPScope:
 
 
 class ASGIMiddleware:
+    __slots__ = ("app", "loop", "wait_time")
+
     """
     Convert ASGIApp to WSGIApp.
 
@@ -143,6 +149,8 @@ class ASGIMiddleware:
 
 
 class ASGIResponder:
+    __slots__ = ("app", "loop", "wait_time", "sync_event", "sync_event_set_lock", "receive_event", "send_event", "asgi_done", "wsgi_should_stop")
+
     def __init__(
         self,
         app: ASGIApp,
