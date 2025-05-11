@@ -179,6 +179,8 @@ class WSGIMiddleware:
 
 
 class WSGIResponder:
+    __slots__ = ("app", "executor", "loop", "send_queue", "response_started", "exc_info")
+
     def __init__(
         self, app: WSGIApp, executor: ThreadPoolExecutor, send_queue_size: int
     ) -> None:
